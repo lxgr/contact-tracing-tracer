@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>Covid contact tracer tracer</title>
+</head>
+<body>
+<script>
+devices = {}
+async function init() {
+
+    const options = {
+        keepRepeatedDevices: false,
+        //acceptAllAdvertisements: true,
+        filters: [{services: ["0000fd6f-0000-1000-8000-00805f9b34fb"] }]
+    }
+    var scan = await navigator.bluetooth.requestLEScan(options);
+    document.getElementById('scan').disabled = true
+    document.getElementById('scan').innerHTML = "Scanning..."
+    navigator.bluetooth.addEventListener('advertisementreceived', event => {
+        seenCovidBeacon(event);
+        updateCount();
+    });
+}
+
+function seenCovidBeacon(event) {
+    devices[event.device.id] = {
+        rssi: event.device.rssi,
+        last: Date.now()
+    }
+
+}
+
+function updateCount() {
+    count = document.getElementById('covidcount');
+    count.innerHTML = Object.keys(devices).length
+}
+
+</script>
+<div id='needapi'>You need to enable Chrome experimental web features for this to work here. Go to <pre>chrome://flags/#enable-experimental-web-platform-features</pre> (paste it into your address bar), enable it and restart your browser.</div>
+
+<div id='haveapi' hidden>
+<button id='scan' onclick=init()>Scan</button>
+<p>Currently seeing <span id="covidcount">0</span> device(s) running the contact tracing app.</p>
+</div>
+<script>
+if (navigator.bluetooth.requestLEScan) {
+    document.getElementById('needapi').hidden = true
+    document.getElementById('haveapi').hidden = false
+}
+</script>
+</body>
+
+</html>
