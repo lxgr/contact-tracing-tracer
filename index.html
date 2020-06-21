@@ -35,11 +35,11 @@ function updateCount() {
 }
 
 </script>
-<div id='needapi'>You need to enable Chrome experimental web features for this to work here. Go to <pre>chrome://flags/#enable-experimental-web-platform-features</pre> (paste it into your address bar), enable it and restart your browser.</div>
+<div id='needapi'>You need to enable Chrome experimental web features for this page to work. Go to <pre>chrome://flags/#enable-experimental-web-platform-features</pre> (paste it into your address bar), enable the flag and restart your browser.</div>
 
 <div id='haveapi' hidden>
 <button id='scan' onclick=init()>Scan</button>
-<p>Currently seeing <span id="covidcount">0</span> device(s) running the contact tracing app.</p>
+<p>Currently seeing <span id="covidcount">0</span> device(s) running a contact tracing app using the <a href="https://www.apple.com/covid19/contacttracing">Apple/Google contact tracing framework</a>.</p>
 </div>
 <script>
 if (navigator.bluetooth.requestLEScan) {
